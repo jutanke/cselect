@@ -28,3 +28,13 @@ from cselect import color as cs
 colors = cs.poisson_disc_sampling_Lab(100)
 ```
 ![im2](https://user-images.githubusercontent.com/831215/34304902-14d46a7c-e73c-11e7-9e57-5aafb001b625.png)
+
+
+## Choose color between range
+```python
+from cselect import color as cs
+
+colors = cs.rangecolor(n, (255, 0, 0), (128, 128, 0))
+```
+
+![lincolor](https://user-images.githubusercontent.com/831215/41461513-3798b526-7090-11e8-85b0-0c812d98283f.png)
