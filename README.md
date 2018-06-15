@@ -3,7 +3,7 @@ Selects reasonable colors for you.
 
 ## installing
 ```
-pip install git+https://github.com/justayak/cselect.git
+pip install git+https://github.com/jutanke/cselect.git
 ```
 
 ## Types
