@@ -1,8 +1,8 @@
 import numpy as np
 from skimage import color
-import numpy as np
 from scipy.spatial import KDTree
-from random import random, uniform, randint
+from random import random, uniform
+
 
 def lincolor(n, random_sat=False, random_val=False):
     """ returns linearly sampled colors from HSV space
@@ -23,27 +23,27 @@ def rangecolor(n, start_rgb, end_rgb, max_value=255):
     start_rgb = np.expand_dims(
         np.expand_dims(start_rgb, axis=0), axis=0)/max_value
     start_hsv = np.squeeze(color.rgb2hsv(start_rgb))
-    
+
     end_rgb = np.expand_dims(
         np.expand_dims(end_rgb, axis=0), axis=0)/max_value
     end_hsv = np.squeeze(color.rgb2hsv(end_rgb))
-    
+
     h_start, s_start, v_start = start_hsv
     h_end, s_end, v_end = end_hsv
-    
+
     H = np.expand_dims(np.linspace(h_start, h_end, n), axis=0)
     S = np.expand_dims(np.linspace(s_start, s_end, n), axis=0)
     V = np.expand_dims(np.linspace(v_start, v_end, n), axis=0)
-    
-    HSV = np.transpose(np.concatenate([H,S,V], axis=0))
-    
+
+    HSV = np.transpose(np.concatenate([H, S, V], axis=0))
+
     RGB = []
     for hsv in HSV:
         hsv = np.expand_dims(
             np.expand_dims(hsv, axis=0), axis=0)
-        rgb  = np.squeeze(color.hsv2rgb(hsv)) * max_value
+        rgb = np.squeeze(color.hsv2rgb(hsv)) * max_value
         RGB.append(rgb)
-    
+
     return np.array(RGB)
 
 
@@ -72,14 +72,15 @@ def poisson_disc_sampling(n, gen_candidate=None, n_candidates=150):
 
     return data
 
+
 def poisson_disc_sampling_Lab(n):
     """ randomly sample colors from Lab space
     """
     gen_ab_candidate = lambda: \
         (uniform(30, 100), uniform(-127, 128), uniform(-127, 128))
     Samples = poisson_disc_sampling(n, gen_candidate=gen_ab_candidate)
-    Lab = np.array([(L, a, b) for L,a,b in Samples])
-    Lab = np.array([Lab], 'float64')  # elevate dims to fit conversion
-                                      # libraries API
+    Lab = np.array([(L, a, b) for L, a, b in Samples])
+    Lab = np.array([Lab], 'float64')
+    # elevate dims to fit conversio libraries API
     RGB = color.lab2rgb(Lab) * 255
     return np.squeeze(RGB.astype('uint8'))
